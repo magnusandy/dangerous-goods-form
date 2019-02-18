@@ -10,7 +10,7 @@ const styles: any = (theme: any) => ({
     textAlign: "center"
   },
   tableHead: {
-    background: "cyan",
+    background: "#A0A0A0",
     borderWidth: 5,
   },
   cell: {
