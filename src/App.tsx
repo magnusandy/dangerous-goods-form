@@ -19,7 +19,7 @@ const styles: any = (theme: any) => ({
   },
   cell: {
     border: `1px solid`,
-    padding: 5
+    padding: 5,
   },
   table: {
     maxWidth: 700,
@@ -109,47 +109,48 @@ class App extends Component<Props, State> {
     return (
       <div className="App">
         <header className="App-header">
-          <FormControl className={this.props.classes.formControl}>
-            <InputLabel htmlFor="'desc-simple">Description</InputLabel>
-            <Select
-              value={this.state.description}
-              onChange={this.onChangeDescSelector}
-              inputProps={{
-                name: 'Description',
-                id: 'desc-simple',
-              }}
-            >
-              {ExplosiveRepository.getDescriptions()
-                .map(d => <MenuItem value={d}>{d}</MenuItem>)
-              }
-            </Select>
-            <TextField
-              id="standard-number"
-              label="Number of Packs"
-              value={this.state.numberPacks}
-              onChange={this.onChangePacks}
-              type="number"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              margin="normal"
-            />
-            <TextField
-              id="standard-number2"
-              label="Number of Items"
-              value={this.state.numberItems}
-              onChange={this.onChangeItems}
-              type="number"
-              InputLabelProps={{
-                shrink: true,
-              }}
-              margin="normal"
-            />
-            <Button onClick={this.onClickButton}>
-              Add
+          <div className="hidden-print">
+            <FormControl className={this.props.classes.formControl}>
+              <InputLabel htmlFor="'desc-simple">Description</InputLabel>
+              <Select
+                value={this.state.description}
+                onChange={this.onChangeDescSelector}
+                inputProps={{
+                  name: 'Description',
+                  id: 'desc-simple',
+                }}
+              >
+                {ExplosiveRepository.getDescriptions()
+                  .map(d => <MenuItem value={d}>{d}</MenuItem>)
+                }
+              </Select>
+              <TextField
+                id="standard-number"
+                label="Number of Packs"
+                value={this.state.numberPacks}
+                onChange={this.onChangePacks}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                margin="normal"
+              />
+              <TextField
+                id="standard-number2"
+                label="Number of Items"
+                value={this.state.numberItems}
+                onChange={this.onChangeItems}
+                type="number"
+                InputLabelProps={{
+                  shrink: true,
+                }}
+                margin="normal"
+              />
+              <Button onClick={this.onClickButton}>
+                Add
           </Button>
-          </FormControl>
-
+            </FormControl>
+          </div>
           <Paper>
             <Table classes={{ root: this.props.classes.table }}>
               <TableHead classes={{ root: this.props.classes.tableHead }}>
@@ -165,7 +166,7 @@ class App extends Component<Props, State> {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {this.state.explosives.map(fe => createRow(this.props, fe.unNumber, fe.technicalName, fe.primaryClass, fe.packingGroup, fe.perItemWeight*fe.items, fe.packs, fe.items, fe.description))}
+                {this.state.explosives.map(fe => createRow(this.props, fe.unNumber, fe.technicalName, fe.primaryClass, fe.packingGroup, fe.perItemWeight * fe.items, fe.packs, fe.items, fe.description))}
               </TableBody>
             </Table>
           </Paper>
