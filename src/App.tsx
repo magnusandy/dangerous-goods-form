@@ -1,17 +1,13 @@
 import React, { Component, ChangeEvent } from 'react';
 import './App.css';
 import Table from '@material-ui/core/Table';
-import { TableHead, TableRow, TableCell, Paper, TableBody, withStyles, Select, MenuItem, InputLabel, FormControl, TextField, Button } from '@material-ui/core';
+import { TableHead, TableRow, TableCell, Paper, TableBody, withStyles, Select, MenuItem, InputLabel, FormControl, TextField, Button, Grid, NativeSelect, Input, FormHelperText } from '@material-ui/core';
 import { ExplosiveRepository, ExplosiveData } from './explosiveRepo/explosiveRepo';
 import { Optional } from 'java8script';
 
 const styles: any = (theme: any) => ({
-  root: {
-    width: '100%',
-    marginTop: theme.spacing.unit * 3,
-    overflowX: 'auto',
-    background: "red",
-    fontSize: 50
+  app: {
+    textAlign: "center"
   },
   tableHead: {
     background: "cyan",
@@ -21,13 +17,41 @@ const styles: any = (theme: any) => ({
     border: `1px solid`,
     padding: 5,
   },
+
+  headerCell: {
+    border: `2px solid`,
+    padding: 5,
+  },
   table: {
     maxWidth: 700,
   },
+  descForm: {
+    paddingTop: 8
+  },
+  descLabel: {
+    paddingTop:10
+  },
   formControl: {
     margin: theme.spacing.unit,
-    minWidth: 120,
+    maxWidth: 700,
   },
+
+  formRoot: {
+    flexGrow: 1,
+    minWidth: 700,
+    alignItems: "center"
+  },
+  button: {
+    width: "90%"  
+  },
+
+  appHeader: {
+    backgroundColor: "#F0F0F0",
+    minHeight: '100vh',
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  }
 });
 
 function createRow(props: any, un: string, techName: string, primaryClass: string, packingGroup: string, neq: number, numPacks: number, numItems: number, desc: string) {
@@ -62,7 +86,7 @@ interface Props {
 const defaultFormState = {
   numberPacks: 0,
   numberItems: 0,
-  description: ""
+  description: "<Select>"
 }
 class App extends Component<Props, State> {
 
@@ -91,7 +115,7 @@ class App extends Component<Props, State> {
   private onClickButton = () => {
     if (this.state.numberItems > 0 &&
       this.state.numberPacks > 0 &&
-      this.state.description !== "") {
+      this.state.description !== defaultFormState.description) {
       const data: Optional<ExplosiveData> = ExplosiveRepository.getByDescription(this.state.description);
       data.ifPresent(ed => {
         const full: FullExplosiveData = { ...ed, packs: this.state.numberPacks, items: this.state.numberItems };
@@ -107,62 +131,71 @@ class App extends Component<Props, State> {
   render() {
     console.log(this.state);
     return (
-      <div className="App">
-        <header className="App-header">
+      <div className={this.props.classes.app}>
+        <header className={this.props.classes.appHeader}>
           <div className="hidden-print">
-            <FormControl className={this.props.classes.formControl}>
-              <InputLabel htmlFor="'desc-simple">Description</InputLabel>
-              <Select
-                value={this.state.description}
-                onChange={this.onChangeDescSelector}
-                inputProps={{
-                  name: 'Description',
-                  id: 'desc-simple',
-                }}
-              >
-                {ExplosiveRepository.getDescriptions()
-                  .map(d => <MenuItem value={d}>{d}</MenuItem>)
-                }
-              </Select>
-              <TextField
-                id="standard-number"
-                label="Number of Packs"
-                value={this.state.numberPacks}
-                onChange={this.onChangePacks}
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                margin="normal"
-              />
-              <TextField
-                id="standard-number2"
-                label="Number of Items"
-                value={this.state.numberItems}
-                onChange={this.onChangeItems}
-                type="number"
-                InputLabelProps={{
-                  shrink: true,
-                }}
-                margin="normal"
-              />
-              <Button onClick={this.onClickButton}>
-                Add
-          </Button>
-            </FormControl>
+              <div className={this.props.classes.formRoot}>
+                <Grid container spacing={0} alignItems="center">
+                  <Grid item xs={3}>
+                    <FormControl className={this.props.classes.descForm}>
+                      <InputLabel className={this.props.classes.descLabel} htmlFor="desc-native-helper">Description</InputLabel>
+                      <NativeSelect
+                        value={this.state.description}
+                        onChange={this.onChangeDescSelector}
+                        input={<Input name="desc" id="desc-native-helper" />}
+                      >
+                        <option value={defaultFormState.description}>{defaultFormState.description}</option>
+                        {ExplosiveRepository.getDescriptions()
+                        .map(d => <option value={d}>{d}</option>)}
+                      </NativeSelect>
+                    </FormControl>
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      id="standard-number"
+                      label="Number of Packs"
+                      value={this.state.numberPacks}
+                      onChange={this.onChangePacks}
+                      type="number"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      margin="normal"
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <TextField
+                      id="standard-number2"
+                      label="Number of Items"
+                      value={this.state.numberItems}
+                      onChange={this.onChangeItems}
+                      type="number"
+                      InputLabelProps={{
+                        shrink: true,
+                      }}
+                      margin="normal"
+                    />
+                  </Grid>
+                  <Grid item xs={3}>
+                    <Button variant="contained" color="primary" className={this.props.classes.button} onClick={this.onClickButton}>
+                      Add
+                    </Button>
+                  </Grid>
+                </Grid>
+              </div>
           </div>
           <Paper>
             <Table classes={{ root: this.props.classes.table }}>
               <TableHead classes={{ root: this.props.classes.tableHead }}>
                 <TableRow>
-                  <TableCell classes={{ root: this.props.classes.cell }} >UN Number</TableCell>
-                  <TableCell classes={{ root: this.props.classes.cell }} >Technical Name</TableCell>
-                  <TableCell classes={{ root: this.props.classes.cell }} >Primary Class</TableCell>
-                  <TableCell classes={{ root: this.props.classes.cell }} >Packing Group</TableCell>
-                  <TableCell classes={{ root: this.props.classes.cell }} >Total Quantity NEQ (KG)</TableCell>
-                  <TableCell classes={{ root: this.props.classes.cell }} >Number of Packages</TableCell>
-                  <TableCell classes={{ root: this.props.classes.cell }} >Number of Items</TableCell>
-                  <TableCell classes={{ root: this.props.classes.cell }} >Description</TableCell>
+                  <TableCell classes={{ root: this.props.classes.headerCell }} >UN Number</TableCell>
+                  <TableCell classes={{ root: this.props.classes.headerCell }} >Technical Name</TableCell>
+                  <TableCell classes={{ root: this.props.classes.headerCell }} >Primary Class</TableCell>
+                  <TableCell classes={{ root: this.props.classes.headerCell }} >Packing Group</TableCell>
+                  <TableCell classes={{ root: this.props.classes.headerCell }} >Total Quantity NEQ (KG)</TableCell>
+                  <TableCell classes={{ root: this.props.classes.headerCell }} >Number of Packages</TableCell>
+                  <TableCell classes={{ root: this.props.classes.headerCell }} >Number of Items</TableCell>
+                  <TableCell classes={{ root: this.props.classes.headerCell }} >Description</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
