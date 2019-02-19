@@ -203,6 +203,9 @@ class App extends Component<Props, State> {
               </TableBody>
             </Table>
           </Paper>
+          <Button variant="contained" color="primary" className={this.props.classes.button} onClick={() => window.print()}>
+                      print
+                    </Button>
         </header>
       </div >
     );
