@@ -1,7 +1,7 @@
 {
-  "name": "electron-quick-start",
+  "name": "dangerous-goods-form",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "Dangerous goods form",
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -9,7 +9,7 @@
     "dist": "build"
   },
   "build": {
-    "appId": "explosive.app",
+    "appId": "com.dangerous.goods.app",
     "dmg": {
       "contents": [
         {
@@ -35,16 +35,7 @@
       "icon": "build/icon.ico"
     }
   },
-  "repository": "https://github.com/electron/electron-quick-start",
-  "keywords": [
-    "Electron",
-    "quick",
-    "start",
-    "tutorial",
-    "demo"
-  ],
-  "author": "GitHub",
-  "license": "CC0-1.0",
+  "author": "Andrew Magnus",
   "devDependencies": {
     "electron": "^4.0.4",
     "electron-builder": "^20.38.5"
