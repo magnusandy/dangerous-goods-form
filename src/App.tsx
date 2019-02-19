@@ -5,6 +5,10 @@ import { TableHead, TableRow, TableCell, Paper, TableBody, withStyles, Select, M
 import { ExplosiveRepository, ExplosiveData } from './explosiveRepo/explosiveRepo';
 import { Optional } from 'java8script';
 
+const w:any = window;
+const electron = w.require('electron');
+const fs = electron.remote.require('fs');
+
 const styles: any = (theme: any) => ({
   app: {
     textAlign: "center"
@@ -130,6 +134,10 @@ class App extends Component<Props, State> {
 
   render() {
     console.log(this.state);
+    fs.appendFile('mynewfile1.txt', 'Hello content!', function (err:any) {
+      if (err) throw err;
+      console.log('Saved!');
+    });
     return (
       <div className={this.props.classes.app}>
         <header className={this.props.classes.appHeader}>
