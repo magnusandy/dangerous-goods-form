@@ -23,7 +23,6 @@
     "startElectron": "cd ./electronApp && yarn start",
     "buildElectron": "react-scripts build && rm -rf electronApp/docs/ && mv build electronApp/docs",
     "bsElectron": "yarn buildElectron && yarn startElectron"
-
   },
   "eslintConfig": {
     "extends": "react-app"
