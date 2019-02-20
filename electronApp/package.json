@@ -1,0 +1,43 @@
+{
+  "name": "dangerous-goods-form",
+  "version": "1.0.0",
+  "description": "Dangerous goods form",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "build --dir",
+    "dist": "build"
+  },
+  "build": {
+    "appId": "com.dangerous.goods.app",
+    "dmg": {
+      "contents": [
+        {
+          "x": 110,
+          "y": 150
+        },
+        {
+          "x": 240,
+          "y": 150,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ]
+    },
+    "win": {
+      "target": "squirrel",
+      "icon": "build/icon.ico"
+    }
+  },
+  "author": "Andrew Magnus",
+  "devDependencies": {
+    "electron": "^4.0.4",
+    "electron-builder": "^20.38.5"
+  }
+}
